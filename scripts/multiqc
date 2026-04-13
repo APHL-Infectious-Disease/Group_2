@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+IN_DIR="${1:-results}"   # scans whole results folder
+OUT_DIR="results/multiqc"
+
+mkdir -p "${OUT_DIR}"
+multiqc "${IN_DIR}" -o "${OUT_DIR}" --force
+
+echo "MultiQC report: ${OUT_DIR}/multiqc_report.html"
