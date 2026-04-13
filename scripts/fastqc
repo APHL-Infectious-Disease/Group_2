@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+RAW_DIR="data/raw"
+OUT_DIR="results/fastqc"
+THREADS="${THREADS:-2}"
+
+mkdir -p "${OUT_DIR}"
+
+for f in "${RAW_DIR}"/*.fa "${RAW_DIR}"/*.fasta "${RAW_DIR}"/*.fna; do
+  [ -e "$f" ] || continue   
+  found_any=true
+  echo "  - $f"
+  fastqc --quiet --threads "${THREADS}" --outdir "${OUT_DIR}" "$f"
+done
+
+if ! $found_any; then
+  echo "No FASTA files found in ${RAW_DIR}"
+  exit 1
+fi
+
+echo "FastQC complete. Results in ${OUT_DIR}"
