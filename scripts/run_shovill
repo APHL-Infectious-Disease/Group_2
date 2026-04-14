@@ -1,0 +1,13 @@
+READ1=$1
+READ2=$2
+SAMPLE=$3
+
+DEPTH=150
+GSIZE="1.9M"
+MINLEN=500
+ASSEMBLER="spades"
+OPTS="careful"
+OUTDIR=results/$SAMPLE/shovill
+CPUS=$(nproc --all)
+
+apptainer exec docker://staphb/shovill shovill --depth $DEPTH --gsize $GSIZE --minlen $MINLEN --assembler $ASSEMBLER --opts '$OPTS' --outdir $OUTDIR --R1 $READ1 --R2 $READ2 --cpus $CPUS

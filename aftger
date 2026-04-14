@@ -1,0 +1,49 @@
+#! /bin/bash
+
+samplesheet="$1"
+reference="GCF_000833355.1_ASM83335v1_genomic.fna"
+
+if [ ! -f $samplesheet ]; then
+  echo 'Samplesheet not provided or does not exist. Please provide a samplesheet'
+  exit
+fi
+
+mkdir -p results
+
+while IFS= read -r line; do
+  sample=$(echo $line | cut -d , -f 1)
+  r1=$(echo $line | cut -d , -f 2)
+  r2=$(echo $line | cut -d , -f 3)
+  echo "Processing $sample"
+
+  mkdir -p "results/$sample"
+
+  # verify the input files exist
+  if [ ! -f "$r1" ]; then
+    echo "File $r1 does not exist"
+    exit
+  fi
+
+  if [ ! -f "$r2" ]; then
+    echo "File $r2 does not exist"
+    exit
+  fi
+
+  # perform assembly using shovill
+  bash scripts/run_shovill $r1 $r2 $sample
+  assembly=results/shovill/$sample/contigs.fa
+
+  # run quast
+  bash scripts/run_quast $assembly $sample
+
+  # run BUSCO
+  bash scripts/run_busco $assembly $sample
+
+  # perform alignment
+  bash scripts/run_bwa $r1 $r2 $sample $reference
+  sam="results/$sample/bwa/$sample.sam"
+
+  # perform bam conversion and sorting
+  bash scripts/run_conversion $sam $sample
+  
+done < $samplesheet

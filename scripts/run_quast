@@ -1,0 +1,7 @@
+assembly=$1
+sample=$2
+
+OUTDIR="results/$sample/quast"
+CPUS=$(nproc --all)
+
+apptainer exec docker://staphb/quast quast.py --output-dir $OUTDIR --threads $CPUS $assembly

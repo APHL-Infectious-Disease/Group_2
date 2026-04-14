@@ -1,0 +1,15 @@
+R1=$1
+R2=$2
+SAMPLE=$3
+REFERENCE=$4
+OUTDIR="results/$SAMPLE/bwa"
+OUTPUT="results/$SAMPLE/bwa/$SAMPLE.sam"
+VERBOSITY=1
+CPUS=$(nproc --all)
+mkdir -p $OUTDIR
+
+# perform indexing of reference
+apptainer exec docker://staphb/bwa bwa index $REFERENCE
+
+# perform the alignment
+apptainer exec docker://staphb/bwa bwa mem $REFERENCE $R1 $R2 -v $VERBOSITY -t $CPUS -o $OUTPUT
