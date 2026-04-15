@@ -10,7 +10,7 @@ reference_fasta="data/reference.fasta"
 
 #Create reference dictionary and reference index (gatk will look for this in the same directory as the reference fasta)
 gatk CreateSequenceDictionary -R $reference_fasta
-samtools faidx ref.fasta
+samtools faidx $reference_fasta
 
 #Variant calling (Mutect2 is preferred over HaplotypeCaller for prokaryotic genomes due to uneven read depths, intra-sample variation, and low frequency variants)
 gatk Mutect2 -I $input_bam_file -O $output_directory/unfiltered.vcf.gz -R $reference_fasta 
