@@ -1,0 +1,12 @@
+name: bio
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - fastqc
+  - shovill
+  - quast
+  - prokka
+  - snippy
+  - fasttree
+  - panaroo
