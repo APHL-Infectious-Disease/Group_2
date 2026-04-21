@@ -9,14 +9,14 @@ OUTPUT="results/$SAMPLE/amrfinderplus"
 IDENT_MIN="${IDENT_MIN:-0.9}"
 COV_MIN="${COV_MIN:-0.5}"
 TRANSLATION_TABLE="${TRANSLATION_TABLE:-11}"
-CPUS=$(nproc --all)
+THREADS=$(nproc --all)
 
 mkdir -p "$OUTPUT"
 
 apptainer exec docker://staphb/amrfinderplus amrfinder \
   --nucleotide "$ASSEMBLY" \
   --output "$OUTPUT/${SAMPLE}.amrfinderplus.tsv" \
-  --threads "$CPUS" \
+  --threads "$THREADS" \
   --ident_min "$IDENT_MIN" \
   --coverage_min "$COV_MIN" \
   --translation_table "$TRANSLATION_TABLE" \
@@ -30,3 +30,4 @@ if ! $found_any; then
 fi
 
 echo "AMRFinderPlus complete. Results in ${OUT_DIR}"
+
