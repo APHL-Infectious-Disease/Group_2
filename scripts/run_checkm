@@ -15,7 +15,7 @@ CONTAMINATION_MAX=10.0
 
 # get data if needed
 mkdir -p checkm_data
-if [ -z checkm_data/fran.ms ]; then
+if [ ! -f checkm_data/fran.ms ]; then
   checkm taxon_set genus "Francisella" fran.ms
 
 
