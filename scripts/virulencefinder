@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+source /opt/conda/etc/profile.d/conda.sh
+conda activate virulence
+
 ASSEMBLY=$1   
 SAMPLE=$2    
 DB_PATH=$3    
