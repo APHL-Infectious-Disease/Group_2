@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+source /opt/conda/etc/profile.d/conda.sh
+conda activate bio
+
 IN_DIR="${1:-results}"   # scans whole results folder
 OUT_DIR="results/multiqc"
 
