@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ASSEMBLY=$1   
+SAMPLE=$2    
+DB_PATH=$3    
+DB_NAME=$4   
+
+OUTPUT="results/$SAMPLE/virulencefinder"
+METHOD="${METHOD:-blastn}"     
+MINCOV="${MINCOV:-0.6}"         
+IDENTITY="${IDENTITY:-0.9}"     
+
+mkdir -p "$OUTPUT"
+
+virulencefinder.py \
+  -i "$ASSEMBLY" \
+  -o "$OUTPUT" \
+  -mp "$METHOD" \
+  -p "$DB_PATH" \
+  -d "$DB_NAME" \
+  -l "$MINCOV" \
+  -t "$IDENTITY"
