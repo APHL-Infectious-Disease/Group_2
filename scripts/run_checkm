@@ -1,0 +1,26 @@
+#! /bin/bash
+source /opt/conda/etc/profile.d/conda.sh
+conda activate checkm
+
+ASSEMBLY_DIR=$1
+SAMPLE=$2
+
+# command params
+OUTDIR="results/$SAMPLE/checkm"
+CPUS=$(nproc --all)
+
+# filters
+COMPLETENESS_MIN=90.0
+CONTAMINATION_MAX=5.0
+
+checkm lineage_wf -x fa -t $CPUS $ASSEMBLY_DIR $OUTDIR
+
+# check for quality pass
+completeness=$(tail -n 1 $OUTDIR/storage/bin_stats_ext.tsv | cut -f 7)
+contamination=$(tail -n 1 $OUTDIR/storage/bin_stats_ext.tsv | cut -f 8)
+
+if awk "BEGIN { exit !($completeness >= $COMPLETENESS_MIN && $contamination <= $CONTAMINATION_MAX)}"; then
+  echo -e "$SAMPLE\tcheckm2\tpassed" >> results/sample_status.tsv
+else
+  echo -e "$SAMPLE\tcheckm2\tfailed" >> results/sample_status.tsv
+fi

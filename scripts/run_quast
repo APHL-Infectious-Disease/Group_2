@@ -1,7 +1,27 @@
-assembly=$1
-sample=$2
+#! /bin/bash
+source /opt/conda/etc/profile.d/conda.sh
+conda activate bio
 
-OUTDIR="results/$sample/quast"
+
+# inputs
+ASSEMBLY=$1
+SAMPLE=$2
+
+# command params
+OUTDIR="results/$SAMPLE/quast"
 CPUS=$(nproc --all)
 
-apptainer exec docker://staphb/quast quast.py --output-dir $OUTDIR --threads $CPUS $assembly
+# filters
+MAX_CONTIGS=500
+
+# run quast
+quast.py --output-dir $OUTDIR --threads $CPUS $ASSEMBLY
+
+# check if the sample passed the filter
+total_contigs=$(grep '# contigs' $OUTDIR/report.tsv | tail -n 1 | cut -f 2)
+if [ $total_contigs -le $MAX_CONTIGS ]; then
+  echo -e "$SAMPLE\tQUAST\tpassed" >> results/sample_status.tsv
+else
+  echo -e "$SAMPLE\tQUAST\tfailed" >> results/sample_status.tsv
+fi
+

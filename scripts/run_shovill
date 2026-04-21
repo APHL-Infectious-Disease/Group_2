@@ -1,3 +1,9 @@
+#! /bin/bash.
+
+source /opt/conda/etc/profile.d/conda.sh
+conda activate bio
+
+
 READ1=$1
 READ2=$2
 SAMPLE=$3
@@ -7,7 +13,12 @@ GSIZE="1.9M"
 MINLEN=500
 ASSEMBLER="spades"
 OPTS="careful"
-OUTDIR=results/$SAMPLE/shovill
+OUTDIR="results/$SAMPLE/shovill"
 CPUS=$(nproc --all)
+NEW_DIR="results/$SAMPLE/shovill/assembly"
 
-apptainer exec docker://staphb/shovill shovill --depth $DEPTH --gsize $GSIZE --minlen $MINLEN --assembler $ASSEMBLER --opts '$OPTS' --outdir $OUTDIR --R1 $READ1 --R2 $READ2 --cpus $CPUS
+shovill --depth $DEPTH --gsize $GSIZE --minlen $MINLEN --assembler $ASSEMBLER --opts '$OPTS' --outdir $OUTDIR --R1 $READ1 --R2 $READ2 --cpus $CPUS
+
+# move files around for checkm
+mkdir -p $NEW_DIR
+mv $OUTDIR/contigs.fa $NEW_DIR/$SAMPLE.fa

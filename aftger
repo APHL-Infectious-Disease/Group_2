@@ -1,14 +1,16 @@
 #! /bin/bash
 
-samplesheet="$1"
-reference="GCF_000833355.1_ASM83335v1_genomic.fna"
-
 if [ ! -f $samplesheet ]; then
   echo 'Samplesheet not provided or does not exist. Please provide a samplesheet'
   exit
 fi
 
+samplesheet="$1"
 mkdir -p results
+
+# file to track the status of samples
+echo "Sample  Tool  QC Status" > results/sample_status.tsv  # overwrite if previously ran
+
 
 while IFS= read -r line; do
   sample=$(echo $line | cut -d , -f 1)
@@ -29,21 +31,35 @@ while IFS= read -r line; do
     exit
   fi
 
+  # read qc
+
   # perform assembly using shovill
   bash scripts/run_shovill $r1 $r2 $sample
-  assembly=results/shovill/$sample/contigs.fa
+  assembly=results/$sample/shovill/assembly/$sample.fa
+  assembly_dir=results/$sample/shovill/assembly
 
   # run quast
   bash scripts/run_quast $assembly $sample
 
-  # run BUSCO
-  bash scripts/run_busco $assembly $sample
-
-  # perform alignment
-  bash scripts/run_bwa $r1 $r2 $sample $reference
-  sam="results/$sample/bwa/$sample.sam"
-
-  # perform bam conversion and sorting
-  bash scripts/run_conversion $sam $sample
+  # run CheckM
+  bash scripts/run_checkm $assembly_dir $sample
   
 done < $samplesheet
+
+
+# check pass/fail samples and save them to a directory
+mkdir -p results/passed_assemblies
+samples=$(sed '1,1d' results/sample_status.tsv | cut -f 1 | uniq)
+for sample in $samples; do
+  fail_search=$(grep -w $sample results/sample_status.tsv | grep -w 'failed')
+  if [ -z "$fail_search"]; then
+    echo "$sample passed"
+    ln -s $(PWD)/results/$sample/shovill/assembly/$sample.fa -t $(PWD)/results/passed_assemblies
+  else
+    echo "$sample failed"
+  fi
+done
+
+# iterate through pass and get amr, virulence
+
+# collect all pass for cg and make tree
