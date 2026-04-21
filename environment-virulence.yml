@@ -1,0 +1,6 @@
+name: virulence
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - virulencefinder

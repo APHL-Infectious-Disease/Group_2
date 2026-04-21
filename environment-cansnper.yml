@@ -1,0 +1,6 @@
+name: cansnper
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - cansnper
