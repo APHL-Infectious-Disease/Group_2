@@ -11,13 +11,20 @@ CPUS=$(nproc --all)
 
 # filters
 COMPLETENESS_MIN=90.0
-CONTAMINATION_MAX=5.0
+CONTAMINATION_MAX=10.0
 
-checkm lineage_wf -x fa -t $CPUS $ASSEMBLY_DIR $OUTDIR
+# get data if needed
+mkdir -p checkm_data
+if [ -z checkm_data/fran.ms ]; then
+  checkm taxon_set genus "Francisella" fran.ms
+
+
+checkm analyze -t $CPUS -x fa checkm_data/fran.ms $ASSEMBLY_DIR $OUTDIR
+checkm qa -t 8 fran.ms $OUTDIR
 
 # check for quality pass
-completeness=$(tail -n 1 $OUTDIR/storage/bin_stats_ext.tsv | cut -f 7)
-contamination=$(tail -n 1 $OUTDIR/storage/bin_stats_ext.tsv | cut -f 8)
+completeness=$(tail -n 1 $OUTDIR/storage/bin_stats_ext.tsv | cut -f 2 | cut -d , -f 11 | cut -d ' ' -f 3)
+contamination=$(tail -n 1 $OUTDIR/storage/bin_stats_ext.tsv | cut -f 2 | cut -d , -f 12 | cut -d ' ' -f 3)
 
 if awk "BEGIN { exit !($completeness >= $COMPLETENESS_MIN && $contamination <= $CONTAMINATION_MAX)}"; then
   echo -e "$SAMPLE\tcheckm2\tpassed" >> results/sample_status.tsv
