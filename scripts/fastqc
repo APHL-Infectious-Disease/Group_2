@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+source /opt/conda/etc/profile.d/conda.sh
+conda activate bio
+
 RAW_DIR="data/raw"
 OUT_DIR="results/fastqc"
 THREADS="${THREADS:-2}"
