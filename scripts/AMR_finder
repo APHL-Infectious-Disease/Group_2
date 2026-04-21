@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+source /opt/conda/etc/profile.d/conda.sh
+conda activate amr
+
 ASSEMBLY=$1        
 SAMPLE=$2          
 ORGANISM=$3  
