@@ -1,43 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ASSEMBLY_DIR="data/assemblies"  
-OUT_DIR="results/amrfinderplus"
+ASSEMBLY=$1        
+SAMPLE=$2          
+ORGANISM=$3  
 
-THREADS="${THREADS:-4}"       
+OUTPUT="results/$SAMPLE/amrfinderplus"
+IDENT_MIN="${IDENT_MIN:-0.9}"
+COV_MIN="${COV_MIN:-0.5}"
+TRANSLATION_TABLE="${TRANSLATION_TABLE:-11}"
+CPUS=$(nproc --all)
 
-IDENT_MIN="0.9"                  
-COV_MIN="0.5"                    
-TRANSLATION_TABLE="11"           
+mkdir -p "$OUTPUT"
 
-mkdir -p "${OUT_DIR}"
-
-found_any=false
-
-for assembly in "${ASSEMBLY_DIR}"/*.fasta \
-                "${ASSEMBLY_DIR}"/*.fa    \
-                "${ASSEMBLY_DIR}"/*.fna; do
-  [ -e "$assembly" ] || continue
-  found_any=true
-
-  base="$(basename "${assembly}")"
-  sample="${base%%.*}"          
-
-  out_tsv="${OUT_DIR}/${sample}.amrfinderplus.tsv"
-  log="${OUT_DIR}/${sample}.amrfinderplus.log"
-
-  echo "  - ${sample}"
-
-  amrfinder \
-    --nucleotide "${assembly}" \
-    --output     "${out_tsv}"  \
-    --threads    "${THREADS}"  \
-    --ident_min  "${IDENT_MIN}" \
-    --coverage_min "${COV_MIN}" \
-    --plus \
-    > "${log}" 2>&1
-
-done
+apptainer exec docker://staphb/amrfinderplus amrfinder \
+  --nucleotide "$ASSEMBLY" \
+  --output "$OUTPUT/${SAMPLE}.amrfinderplus.tsv" \
+  --threads "$CPUS" \
+  --ident_min "$IDENT_MIN" \
+  --coverage_min "$COV_MIN" \
+  --translation_table "$TRANSLATION_TABLE" \
+  --plus \
+  --organism "$ORGANISM" \
+  > "$OUTPUT/${SAMPLE}.amrfinderplus.log" 2>&1
 
 if ! $found_any; then
   echo "No assembly files found in ${ASSEMBLY_DIR}"
