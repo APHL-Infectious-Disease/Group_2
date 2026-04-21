@@ -10,3 +10,4 @@ dependencies:
   - snippy
   - fasttree
   - panaroo
+  - multiqc
