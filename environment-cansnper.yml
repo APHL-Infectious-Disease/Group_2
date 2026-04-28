@@ -3,4 +3,6 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - cansnper
+  - FlexTaxD
+  - progressiveMauve
+  - cansnper2

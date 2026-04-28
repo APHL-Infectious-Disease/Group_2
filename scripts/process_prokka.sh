@@ -1,4 +1,6 @@
 #! /bin/bash
+source /opt/conda/etc/profile.d/conda.sh
+conda activate bio
 
 ASSEMBLIES_DIR=$1
 PROKKA_OUT_DIR=$2
