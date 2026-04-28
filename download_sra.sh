@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
+source /opt/conda/etc/profile.d/conda.sh
+conda activate bio
 
 #chmod +x download_sra.sh
 #./download_sra.sh sample_srr.txt fastq_files 8

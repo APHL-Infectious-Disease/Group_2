@@ -4,12 +4,12 @@ set -e
 echo "Starting environment setup..."
 
 # For Apple silicon 
-export CONDA_SUBDIR=osx-64
+# export CONDA_SUBDIR=osx-64
 
 # Main shared environment
 if [ -f environment.yml ]; then
     echo "Installing bio environment..."
-    mamba env update -f environment.yml
+    conda env update -f environment.yml
 fi
 
 # Additional environments
@@ -22,11 +22,11 @@ for file in \
 do
     if [ -f "$file" ]; then
         echo "Installing from $file ..."
-        mamba env create -f "$file" || mamba env update -f "$file"
+        conda env create -f "$file" || conda env update -f "$file"
     fi
 done
 
 # Clean cache to save storage
-mamba clean --all -y
+conda clean --all -y
 
 echo "Setup complete."
