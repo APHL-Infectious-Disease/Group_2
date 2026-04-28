@@ -3,6 +3,9 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
+<<<<<<< Updated upstream
   - FlexTaxD
   - progressiveMauve
+=======
+>>>>>>> Stashed changes
   - cansnper2
