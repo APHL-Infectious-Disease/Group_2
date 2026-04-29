@@ -1,8 +1,7 @@
-#! /bin/bash.
+#!/usr/bin/env bash
 
 source /opt/conda/etc/profile.d/conda.sh
 conda activate bio
-
 
 READ1=$1
 READ2=$2

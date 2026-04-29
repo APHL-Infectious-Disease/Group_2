@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
 source /opt/conda/etc/profile.d/conda.sh
 conda activate amr
 
 ASSEMBLY=$1        
 SAMPLE=$2          
-ORGANISM=$3  
 
 OUTPUT="results/$SAMPLE/amrfinderplus"
 IDENT_MIN="${IDENT_MIN:-0.9}"
@@ -16,7 +14,7 @@ THREADS=$(nproc --all)
 
 mkdir -p "$OUTPUT"
 
-apptainer exec docker://staphb/amrfinderplus amrfinder \
+amrfinder \
   --nucleotide "$ASSEMBLY" \
   --output "$OUTPUT/${SAMPLE}.amrfinderplus.tsv" \
   --threads "$THREADS" \
@@ -24,13 +22,6 @@ apptainer exec docker://staphb/amrfinderplus amrfinder \
   --coverage_min "$COV_MIN" \
   --translation_table "$TRANSLATION_TABLE" \
   --plus \
-  --organism "$ORGANISM" \
   > "$OUTPUT/${SAMPLE}.amrfinderplus.log" 2>&1
 
-if ! $found_any; then
-  echo "No assembly files found in ${ASSEMBLY_DIR}"
-  exit 1
-fi
-
-echo "AMRFinderPlus complete. Results in ${OUT_DIR}"
-
+echo "AMRFinderPlus complete. Results in ${OUTPUT}"

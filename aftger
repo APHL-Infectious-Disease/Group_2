@@ -1,11 +1,14 @@
-#! /bin/bash
+#!/usr/bin/env bash
+
+set -eou pipefail
+
+samplesheet=$1
 
 if [ ! -f $samplesheet ]; then
   echo 'Samplesheet not provided or does not exist. Please provide a samplesheet'
   exit
 fi
 
-samplesheet="$1"
 mkdir -p results
 
 # file to track the status of samples
@@ -32,6 +35,7 @@ while IFS= read -r line; do
   fi
 
   # read qc
+  bash scripts/fastqc $r1 $r2 $sample
 
   # perform assembly using shovill
   bash scripts/run_shovill $r1 $r2 $sample
@@ -51,15 +55,42 @@ done < $samplesheet
 mkdir -p results/passed_assemblies
 samples=$(sed '1,1d' results/sample_status.tsv | cut -f 1 | uniq)
 for sample in $samples; do
-  fail_search=$(grep -w $sample results/sample_status.tsv | grep -w 'failed')
-  if [ -z "$fail_search"]; then
-    echo "$sample passed"
-    ln -s $(PWD)/results/$sample/shovill/assembly/$sample.fa -t $(PWD)/results/passed_assemblies
-  else
+  if grep -w $sample results/sample_status.tsv | grep -w 'failed'; then
     echo "$sample failed"
+  else
+    echo "$sample passed"
+    ln -sf $PWD/results/$sample/shovill/assembly/$sample.fa -t $PWD/results/passed_assemblies
   fi
 done
 
 # iterate through pass and get amr, virulence
+for assembly in results/passed_assemblies/*.fa; do
+  sample=$(echo $assembly | cut -f 3 -d '/' | cut -f 1 -d '.')
+  bash scripts/AMR_finder $assembly $sample 
+done
+
+# cansnper
+mkdir -p results/combined_cansnper/
+bash scripts/process_cansnper.sh files/cansnper_db/francisella_tularensis.db results/passed_assemblies/ results/combined_cansnper/combined_results.tsv files/cansnper_db/references/
 
 # collect all pass for cg and make tree
+# annotation with prokka
+bash scripts/process_prokka.sh results/passed_assemblies results/prokka
+
+# link all gffs to a single directory for panaroo
+mkdir -p results/prokka_gffs
+find results/prokka -type f -name "*.gff" -exec ln -sf $PWD/{} -t "$PWD/results/prokka_gffs" \;
+
+# panaroo
+bash scripts/process_panaroo.sh results/prokka_gffs results/panaroo
+alignment="results/panaroo/core_gene_alignment.aln"
+
+# make tree from core genome
+bash scripts/snp-sites $alignment
+core_alignment="results/snp-sites/core_snps.aln"
+
+mkdir -p results/fasttree
+bash scripts/process_fasttree.sh $core_alignment results/fasttree/snp_tree.nwk
+
+# multiqc
+bash scripts/multiqc

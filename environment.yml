@@ -10,5 +10,6 @@ dependencies:
   - snp-sites
   - sra-tools
   - fasttree
-  - panaroo
+  - panaroo=1.6
   - multiqc
+  - biopython=1.81

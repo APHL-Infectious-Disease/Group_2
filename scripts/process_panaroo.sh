@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 source /opt/conda/etc/profile.d/conda.sh
 conda activate bio
 
@@ -7,7 +8,7 @@ PANAROO_OUT_DIR=$2
 
 mkdir -p "$PANAROO_OUT_DIR"
 
-panaroo -i "$PROKKA_OUT_DIR"/*/*.gff \
+panaroo -i "$PROKKA_OUT_DIR"/*.gff \
     -o "$PANAROO_OUT_DIR" \
     --clean-mode strict \
     -a core \

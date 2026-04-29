@@ -1,4 +1,5 @@
-#! /bin/bash
+#!/usr/bin/env bash
+
 source /opt/conda/etc/profile.d/conda.sh
 conda activate checkm
 
@@ -11,16 +12,17 @@ CPUS=$(nproc --all)
 
 # filters
 COMPLETENESS_MIN=90.0
-CONTAMINATION_MAX=10.0
+CONTAMINATION_MAX=5.0
 
 # get data if needed
 mkdir -p checkm_data
 if [ ! -f checkm_data/fran.ms ]; then
   checkm taxon_set genus "Francisella" fran.ms
-
+  mv fran.ms checkm_data
+fi
 
 checkm analyze -t $CPUS -x fa checkm_data/fran.ms $ASSEMBLY_DIR $OUTDIR
-checkm qa -t 8 fran.ms $OUTDIR
+checkm qa -t 8 checkm_data/fran.ms $OUTDIR
 
 # check for quality pass
 completeness=$(tail -n 1 $OUTDIR/storage/bin_stats_ext.tsv | cut -f 2 | cut -d , -f 11 | cut -d ' ' -f 3)

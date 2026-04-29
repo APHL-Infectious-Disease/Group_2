@@ -1,25 +1,17 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
 source /opt/conda/etc/profile.d/conda.sh
 conda activate bio
 
-RAW_DIR="data/raw"
-OUT_DIR="results/fastqc"
-THREADS="${THREADS:-2}"
+R1=$1
+R2=$2
+SAMPLE=$3
 
-mkdir -p "${OUT_DIR}"
+OUT_DIR="results/$SAMPLE/fastqc"
+THREADS=$(nproc --all)
 
-for f in "${RAW_DIR}"/*.fa "${RAW_DIR}"/*.fasta "${RAW_DIR}"/*.fna; do
-  [ -e "$f" ] || continue   
-  found_any=true
-  echo "  - $f"
-  fastqc --quiet --threads "${THREADS}" --outdir "${OUT_DIR}" "$f"
-done
+mkdir -p $OUT_DIR
 
-if ! $found_any; then
-  echo "No FASTA files found in ${RAW_DIR}"
-  exit 1
-fi
+fastqc --quiet --threads $THREADS --outdir $OUT_DIR $R1 $R2
 
-echo "FastQC complete. Results in ${OUT_DIR}"
+echo "FastQC complete. Results in $OUT_DIR"

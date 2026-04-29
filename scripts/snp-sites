@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+source /opt/conda/etc/profile.d/conda.sh
+conda activate bio
+
+ALN=$1
+
+OUTDIR="results/snp-sites"
+
+mkdir -p $OUTDIR
+
+snp-sites -o $OUTDIR/core_snps.aln $ALN

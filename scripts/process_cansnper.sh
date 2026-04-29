@@ -1,18 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 source /opt/conda/etc/profile.d/conda.sh
 conda activate cansnper
 
 DATABASE="${1:-francisella_tularensis.db}"
 ASSEMBLIES_DIR="${2:-assemblies}"
 OUTPUT_FILE="${3:-combined_results.tsv}"
+REF_DIR=$4
 
 fasta_files=("$ASSEMBLIES_DIR"/*.fasta)
 
-CanSNPer2 --database "$DATABASE" "$ASSEMBLIES_DIR"/*.fasta --verbose -o cansnper_results
+CanSNPer2 --database "$DATABASE" "$ASSEMBLIES_DIR"/*.fa --verbose -o results/cansnper_results --refdir $REF_DIR
 
 echo -e "sample_name\tsnp_path\tfinal_snp\tfound_depth" > "$OUTPUT_FILE"
 
-for snp_file in cansnper_results/*_snps.txt; do
+for snp_file in results/cansnper_results/*_snps.txt; do
     if [ -f "$snp_file" ]; then
         
         filename=$(basename "$snp_file")
