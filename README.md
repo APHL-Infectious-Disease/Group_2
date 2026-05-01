@@ -1,19 +1,17 @@
 
-## APHL 2026 Annual Conference
+APHL 2026 Annual Conference
+Bioinformatics Hackathon, hosted by the APHL Bioinformatics Leadership Program 2025-2026 Cohort
+**Group 2**: David Schaeper, Spencer Bruce, Janis Doss, Satya Kumar, Preethi Kumaran, and James Martinez
 
-### Bioinformatics Hackathon, hosted by the APHL Bioinformatics Leadership Program 2025-2026 Cohort
+***
 
-## Group 2
+# **A.F.T.G.E.R**:​ A *Francisella tularensis* Genome Exploration Resource
 
-<br>
-
-# **A.F.T.G.E.R**:​ A Francisella tularensis Genome Exploration Resource
-
-<br>
+***
 
 ## Background
 
-*Francisella tularensis* is the causative agent of tularemia ("rabbit fever")​. It is zoonotic, being transmitted by numerous vectors such as mosquitoes and ticks. It can also be transmitted by contact with contaminated animal carcasses, water, food, or soil, and can survive on fomites for several weeks. Reservoir hosts include rabbits, rodents, birds, and deer. *F. tularensis* is known for its high virulence, low infectious dose, ability to infect through multiple exposure routes, and ability to evade the immune system. 
+*Francisella tularensis* is the causative agent of tularemia (rabbit fever)​. It is zoonotic, being transmitted by numerous vectors such as mosquitoes and ticks. It can also be transmitted by contact with contaminated animal carcasses, water, food, or soil, and can survive on fomites for several weeks. Reservoir hosts include rabbits, rodents, birds, and deer. *F. tularensis* is known for its high virulence, low infectious dose, ability to infect through multiple exposure routes, and ability to evade the immune system. 
 
 It is critically important that public health laboratories are able to efficiently perform bioinformatics analysis for *F. tularensis* due to its importance as a human pathogen for its potential use in bioterrorism. Its highly clonal nature creates a challenge for taxonomy and phylogeny​, requiring whole genome sequencing to effectively differentiate *F. tularensis* from closely related species​, identify subspecies, track outbreaks​, identify AMR genes, and develop vaccines. 
 
@@ -23,18 +21,18 @@ It is critically important that public health laboratories are able to efficient
 
 ## Components
 
-- FastQC
-- Shovill
-- Quast
-- CheckM
-- CanSNPer2
-- AMRFinder+
-- Prokka
-- Panaroo
-- MultiQC
-- SNP-sites
-- FastTree
-- MicroReact
+- [FastQC](https://github.com/s-andrews/fastqc) - QC metrics (reads)
+- [Shovill](https://github.com/tseemann/shovill) - de-novo assembly
+- [Quast](https://github.com/ablab/quast) - QC metrics (assembly)
+- [CheckM](https://github.com/Ecogenomics/CheckM) - QC metrics (assembly)
+- [CanSNPer2](https://github.com/FOI-Bioinformatics/CanSNPer2) - SNP typing
+- [AMRFinder+](https://github.com/ncbi/amr) - AMR gene identification
+- [Prokka](https://github.com/tseemann/prokka) - annotation
+- [Panaroo](https://github.com/gtonkinhill/panaroo) - core genome alignment
+- [MultiQC](https://github.com/MultiQC/MultiQC) - QC summary
+- [SNP-sites](https://github.com/sanger-pathogens/snp-sites) - core SNP extraction
+- [FastTree](https://github.com/morgannprice/fasttree) - phylogenetic tree 
+- [MicroReact](https://microreact.org/) - data visualization
 
 ## Workflow
 
@@ -43,6 +41,8 @@ It is critically important that public health laboratories are able to efficient
 ## Usage
 
 ## Output 
+
+Sample-specific data is stored within a sample subdirectory​. Output is collected and symbolic links are created in a single directory.
 
 ### Output Directory Structure
 ```
