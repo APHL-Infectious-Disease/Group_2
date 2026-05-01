@@ -19,7 +19,7 @@ It is critically important that public health laboratories are able to efficient
 
 ## Introduction
 
-**A.F.T.G.E.R** (A Francisella tularensis Genome Exploration Resource) is a bioinformatics pipeline for the analysis of whole genome sequencing data of *Francisella tularensis* isolates from short-read whole genome sequencing data. It accepts paired fastq files and will perform pre-processing, de-novo assembly, QC metrics, identification of AMR genes, SNP typing, and data visualization. 
+**A.F.T.G.E.R** (A *Francisella tularensis* Genome Exploration Resource) is a bioinformatics pipeline for the analysis of whole genome sequencing data of *Francisella tularensis* isolates from short-read whole genome sequencing data. It accepts paired fastq files and will perform pre-processing, de-novo assembly, QC metrics, identification of AMR genes, SNP typing, and data visualization. 
 
 ## Components
 
@@ -41,6 +41,9 @@ It is critically important that public health laboratories are able to efficient
 <img width="1280" height="720" alt="Slide10" src="https://github.com/user-attachments/assets/771d8285-7b31-4080-974a-8754f76b4d9c" />
 
 ## Usage
+
+
+
 
 ## Output 
 
