@@ -1,8 +1,48 @@
-# Group_2
-Group 2 Project Directory
 
-# Group_2
-Group 2 Project Directory
+## APHL 2026 Annual Conference
+
+### Bioinformatics Hackathon, hosted by the APHL Bioinformatics Leadership Program 2025-2026 Cohort
+
+## Group 2
+
+<br>
+
+# **A.F.T.G.E.R**:​ A Francisella tularensis Genome Exploration Resource
+
+<br>
+
+## Background
+
+*Francisella tularensis* is the causative agent of tularemia ("rabbit fever")​. It is zoonotic, being transmitted by numerous vectors such as mosquitoes and ticks. It can also be transmitted by contact with contaminated animal carcasses, water, food, or soil, and can survive on fomites for several weeks. Reservoir hosts include rabbits, rodents, birds, and deer. *F. tularensis* is known for its high virulence, low infectious dose, ability to infect through multiple exposure routes, and ability to evade the immune system. 
+
+It is critically important that public health laboratories are able to efficiently perform bioinformatics analysis for *F. tularensis* due to its importance as a human pathogen for its potential use in bioterrorism. Its highly clonal nature creates a challenge for taxonomy and phylogeny​, requiring whole genome sequencing to effectively differentiate *F. tularensis* from closely related species​, identify subspecies, track outbreaks​, identify AMR genes, and develop vaccines. 
+
+## Introduction
+
+**A.F.T.G.E.R** (A Francisella tularensis Genome Exploration Resource) is a bioinformatics pipeline for the analysis of whole genome sequencing data of *Francisella tularensis* isolates from paired-end short-read whole genome sequencing data. It accepts paired fastq files and will perform pre-processing, de-novo assembly, QC metrics, identification of AMR genes, SNP typing, and data visualization. 
+
+## Components
+
+- FastQC
+- Shovill
+- Quast
+- CheckM
+- CanSNPer2
+- AMRFinder+
+- Prokka
+- Panaroo
+- MultiQC
+- SNP-sites
+- FastTree
+- MicroReact
+
+## Workflow
+
+<img width="1280" height="720" alt="Slide10" src="https://github.com/user-attachments/assets/771d8285-7b31-4080-974a-8754f76b4d9c" />
+
+## Usage
+
+## Output 
 
 ### Output Directory Structure
 ```
