@@ -1,6 +1,8 @@
 
 APHL 2026 Annual Conference
+
 Bioinformatics Hackathon, hosted by the APHL Bioinformatics Leadership Program 2025-2026 Cohort
+
 **Group 2**: David Schaeper, Spencer Bruce, Janis Doss, Satya Kumar, Preethi Kumaran, and James Martinez
 
 ***
@@ -17,7 +19,7 @@ It is critically important that public health laboratories are able to efficient
 
 ## Introduction
 
-**A.F.T.G.E.R** (A Francisella tularensis Genome Exploration Resource) is a bioinformatics pipeline for the analysis of whole genome sequencing data of *Francisella tularensis* isolates from paired-end short-read whole genome sequencing data. It accepts paired fastq files and will perform pre-processing, de-novo assembly, QC metrics, identification of AMR genes, SNP typing, and data visualization. 
+**A.F.T.G.E.R** (A Francisella tularensis Genome Exploration Resource) is a bioinformatics pipeline for the analysis of whole genome sequencing data of *Francisella tularensis* isolates from short-read whole genome sequencing data. It accepts paired fastq files and will perform pre-processing, de-novo assembly, QC metrics, identification of AMR genes, SNP typing, and data visualization. 
 
 ## Components
 
