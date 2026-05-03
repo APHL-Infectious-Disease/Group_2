@@ -41,7 +41,28 @@ It is critically important that public health laboratories are able to efficient
 <img width="1280" height="720" alt="Slide10" src="https://github.com/user-attachments/assets/771d8285-7b31-4080-974a-8754f76b4d9c" />
 
 ## Usage
+Before running for the first time, the environments need to be set up. To set the them up, simply run:
 
+```
+conda env create -f environment.yml
+conda env create -f environment-amr.yml
+conda env create -f environment-cansnper.yml
+conda env create -f environment-checkm.yml
+```
+
+Aftger takes a samplesheet as input that consists of 3 columns without headers, the sample id, the path to read1, and the path to read2.
+
+samplesheet.csv:
+```
+sample1,sample1_R1.fastq.gz,sample1_R2.fastq.gz
+sample2,sample2_R2.fastq.gz,sample2_R2.fastq.gz
+```
+
+Launching the aftger pipeline is one simple bash command.
+
+```
+aftger samplesheet.csv
+```
 
 
 
